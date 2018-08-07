@@ -50,15 +50,25 @@ request.get(API_URL)
           whatsHappen++
       }
     }
-    console.log('total' , total)
-    console.log('------------------------')
-    console.log(textThirtyMinutes, thirtyMinutes)
-    console.log(textOneHour, oneHour)
-    console.log(textTwoHours, twoHours)
-    console.log(textThreeHours, threeHours)
-    console.log('no label', noLabel)
-    console.log("what's happen!!!", whatsHappen)
+
+    const object = {
+      'total': total,
+      [textThirtyMinutes]: thirtyMinutes,
+      [textOneHour]: oneHour,
+      [textTwoHours]: twoHours,
+      [textThreeHours]: threeHours,
+      'no label': noLabel,
+      "what's happen!!!": whatsHappen,
+    }
+
+    render(object)
   })
   .catch(error => {
     console.log(error)
   })
+
+function render(object) {
+  for (let key of Object.keys(object)) {
+    console.log(key, object[key])
+  }
+}
