@@ -78,3 +78,5 @@ function render(object) {
     console.log(key, object[key])
   }
 }
+
+module.exports = aggregateTime
