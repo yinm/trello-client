@@ -1,9 +1,12 @@
 const aggregateTime = require('./index')
 
+const textTotal = 'total'
 const textThirtyMinutes = '30minutes';
 const textOneHour = '1hour'
 const textTwoHours = '2hours'
 const textThreeHours = '3hours'
+const textNoLabel = 'no label'
+const textOtherLabels = 'other labels'
 
 describe('has one or more cards', () => {
   let response
@@ -48,13 +51,13 @@ describe('has one or more cards', () => {
 
   test('there is one label for each', () => {
     const expected = {
-      'total': 6.5,
+      [textTotal]: 6.5,
       [textThirtyMinutes]: 1,
       [textOneHour]: 1,
       [textTwoHours]: 1,
       [textThreeHours]: 1,
-      'no label': 1,
-      "what's happen!!!": 0,
+      [textNoLabel]: 1,
+      [textOtherLabels]: 0,
     }
 
     expect(aggregateTime(response)).toEqual(expected)
@@ -64,13 +67,13 @@ describe('has one or more cards', () => {
     response = response.concat(response)
 
     const expected = {
-      'total': 13,
+      [textTotal]: 13,
       [textThirtyMinutes]: 2,
       [textOneHour]: 2,
       [textTwoHours]: 2,
       [textThreeHours]: 2,
-      'no label': 2,
-      "what's happen!!!": 0,
+      [textNoLabel]: 2,
+      [textOtherLabels]: 0,
     }
 
     expect(aggregateTime(response)).toEqual(expected)
@@ -88,13 +91,13 @@ describe('has one or more cards', () => {
     ])
 
     const expected = {
-      'total': 6.5,
+      [textTotal]: 6.5,
       [textThirtyMinutes]: 1,
       [textOneHour]: 1,
       [textTwoHours]: 1,
       [textThreeHours]: 1,
-      'no label': 1,
-      "what's happen!!!": 1,
+      [textNoLabel]: 1,
+      [textOtherLabels]: 1,
     }
 
     expect(aggregateTime(response)).toEqual(expected)
@@ -106,13 +109,13 @@ test('no card', () => {
   const response = []
 
   const expected = {
-    'total': 0,
+    [textTotal]: 0,
     [textThirtyMinutes]: 0,
     [textOneHour]: 0,
     [textTwoHours]: 0,
     [textThreeHours]: 0,
-    'no label': 0,
-    "what's happen!!!": 0,
+    [textNoLabel]: 0,
+    [textOtherLabels]: 0,
   }
 
   expect(aggregateTime(response)).toEqual(expected)

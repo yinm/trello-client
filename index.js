@@ -21,10 +21,13 @@ request.get(API_URL)
  * @returns {Object}
  */
 function aggregateTime(response) {
+  const textTotal = 'total'
   const textThirtyMinutes = '30minutes';
   const textOneHour = '1hour'
   const textTwoHours = '2hours'
   const textThreeHours = '3hours'
+  const textNoLabel = 'no label'
+  const textOtherLabels = 'other labels'
 
   let total = 0
   let thirtyMinutes = 0
@@ -32,7 +35,7 @@ function aggregateTime(response) {
   let twoHours = 0
   let threeHours = 0
   let noLabel = 0
-  let whatsHappen = 0
+  let otherLabels = 0
 
   for (let card of response) {
     if (card.labels[0] === undefined) {
@@ -58,18 +61,18 @@ function aggregateTime(response) {
         total += 3
         break
       default:
-        whatsHappen++
+        otherLabels++
     }
   }
 
   return {
-    'total': total,
+    [textTotal]: total,
     [textThirtyMinutes]: thirtyMinutes,
     [textOneHour]: oneHour,
     [textTwoHours]: twoHours,
     [textThreeHours]: threeHours,
-    'no label': noLabel,
-    "what's happen!!!": whatsHappen,
+    [textNoLabel]: noLabel,
+    [textOtherLabels]: otherLabels,
   }
 }
 
