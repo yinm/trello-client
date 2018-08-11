@@ -75,6 +75,31 @@ describe('has one or more cards', () => {
 
     expect(aggregateTime(response)).toEqual(expected)
   })
+
+  test('has other labels', () => {
+    response = response.concat([
+      {
+        labels: [
+          {
+            name: 'other_labels',
+          },
+        ],
+      },
+    ])
+
+    const expected = {
+      'total': 6.5,
+      [textThirtyMinutes]: 1,
+      [textOneHour]: 1,
+      [textTwoHours]: 1,
+      [textThreeHours]: 1,
+      'no label': 1,
+      "what's happen!!!": 1,
+    }
+
+    expect(aggregateTime(response)).toEqual(expected)
+
+  })
 })
 
 test('no card', () => {
