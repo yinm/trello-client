@@ -55,6 +55,58 @@ test('there is one label for each', () => {
   expect(aggregateTime(response)).toEqual(expected)
 })
 
+test('there is two labels for each', () => {
+  let response = [
+    {
+      labels: [
+        {
+          name: textThirtyMinutes,
+        },
+      ],
+    },
+    {
+      labels: [
+        {
+          name: textOneHour,
+        },
+      ],
+    },
+    {
+      labels: [
+        {
+          name: textTwoHours,
+        },
+      ],
+    },
+    {
+      labels: [
+        {
+          name: textThreeHours,
+        },
+      ],
+    },
+    {
+      labels: [
+        // no labels
+      ]
+    }
+  ]
+
+  response = response.concat(response)
+
+  const expected = {
+    'total': 13,
+    [textThirtyMinutes]: 2,
+    [textOneHour]: 2,
+    [textTwoHours]: 2,
+    [textThreeHours]: 2,
+    'no label': 2,
+    "what's happen!!!": 0,
+  }
+
+  expect(aggregateTime(response)).toEqual(expected)
+})
+
 test('no card', () => {
   const response = []
 
