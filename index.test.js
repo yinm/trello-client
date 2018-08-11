@@ -54,3 +54,19 @@ test('there is one label for each', () => {
 
   expect(aggregateTime(response)).toEqual(expected)
 })
+
+test('no card', () => {
+  const response = []
+
+  const expected = {
+    'total': 0,
+    [textThirtyMinutes]: 0,
+    [textOneHour]: 0,
+    [textTwoHours]: 0,
+    [textThreeHours]: 0,
+    'no label': 0,
+    "what's happen!!!": 0,
+  }
+
+  expect(aggregateTime(response)).toEqual(expected)
+})
