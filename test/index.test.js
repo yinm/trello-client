@@ -1,4 +1,4 @@
-const aggregateTime = require('./index')
+const aggregateTime = require('../index')
 
 const textTotal = 'total'
 const textThirtyMinutes = '30minutes';
