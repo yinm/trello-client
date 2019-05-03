@@ -43,26 +43,28 @@ function aggregateTime(response) {
       continue
     }
 
-    switch (card.labels[0].name) {
-      case textThirtyMinutes:
-        thirtyMinutes++
-        total += 0.5
-        break
-      case textOneHour:
-        oneHour++
-        total += 1
-        break
-      case textTwoHours:
-        twoHours++
-        total += 2
-        break
-      case textThreeHours:
-        threeHours++
-        total += 3
-        break
-      default:
-        otherLabels++
-    }
+    card.labels.forEach(label => {
+      switch (label.name) {
+        case textThirtyMinutes:
+          thirtyMinutes++
+          total += 0.5
+          break
+        case textOneHour:
+          oneHour++
+          total += 1
+          break
+        case textTwoHours:
+          twoHours++
+          total += 2
+          break
+        case textThreeHours:
+          threeHours++
+          total += 3
+          break
+        default:
+          otherLabels++
+      }
+    })
   }
 
   return {
