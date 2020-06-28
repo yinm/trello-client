@@ -5,16 +5,27 @@ const request = require('request-promise')
 const API_KEY = process.env.API_KEY
 const ACCESS_TOKEN = process.env.ACCESS_TOKEN
 const LIST_ID = process.env.LIST_ID
+const LIST_ID_OKR = process.env.LIST_ID_OKR
 const API_URL = `https://api.trello.com/1/lists/${LIST_ID}/cards?key=${API_KEY}&token=${ACCESS_TOKEN}`
+const API_URL_OKR = `https://api.trello.com/1/lists/${LIST_ID_OKR}/cards?key=${API_KEY}&token=${ACCESS_TOKEN}`
 
-request.get(API_URL)
-  .then(response => {
-    const res = JSON.parse(response)
-    render(aggregateTime(res))
-  })
-  .catch(error => {
-    console.log(error)
-  })
+async function main() {
+  try {
+    console.log('OKR -------------------------')
+    const okr = await request.get(API_URL_OKR)
+    render(aggregateTime(JSON.parse(okr)))
+
+    console.log('')
+    console.log('Backlog -------------------------')
+
+    const backlog = await request.get(API_URL)
+    render(aggregateTime(JSON.parse(backlog)))
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+main()
 
 /**
  * @param {Object} response
@@ -26,6 +37,7 @@ function aggregateTime(response) {
   const textOneHour = '1hour'
   const textTwoHours = '2hours'
   const textThreeHours = '3hours'
+  const textFiveHours = '5hours'
   const textNoLabel = 'no label'
   const textOtherLabels = 'other labels'
 
@@ -34,6 +46,7 @@ function aggregateTime(response) {
   let oneHour = 0
   let twoHours = 0
   let threeHours = 0
+  let fiveHours = 0
   let noLabel = 0
   let otherLabels = 0
 
@@ -61,6 +74,10 @@ function aggregateTime(response) {
           threeHours++
           total += 3
           break
+        case textFiveHours:
+          fiveHours++
+          total += 5
+          break
         default:
           otherLabels++
       }
@@ -73,6 +90,7 @@ function aggregateTime(response) {
     [textOneHour]: oneHour,
     [textTwoHours]: twoHours,
     [textThreeHours]: threeHours,
+    [textFiveHours]: fiveHours,
     [textNoLabel]: noLabel,
     [textOtherLabels]: otherLabels,
   }
