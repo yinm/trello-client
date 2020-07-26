@@ -10,9 +10,19 @@ const API_URL_OKR = `https://api.trello.com/1/lists/${LIST_ID_OKR}/cards?key=${A
 async function main() {
   try {
     const okr = await request.get(API_URL_OKR);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    let totalTime = 0;
+
     JSON.parse(okr).forEach((card) => {
-      console.log(`- ${card.name}: ${totalTimeOfCard(card)}h`);
+      if (new Date(card.dateLastActivity).getTime() >= today.getTime()) {
+        const time = timeOfCard(card);
+        console.log(`- ${card.name}: ${time}h`);
+        totalTime += time;
+      }
     });
+
+    console.log(`${totalTime}h`);
   } catch (e) {
     console.log(e);
   }
@@ -20,7 +30,7 @@ async function main() {
 
 main();
 
-function totalTimeOfCard(card) {
+function timeOfCard(card) {
   if (card.labels[0] === undefined) {
     return 0;
   }
